@@ -11,15 +11,9 @@ class AuthController < ApplicationController
     end
   end
 
-  def logout
-    user = User.find_by(username: params[:username])
-    if user && user.authenticate(params[:password])
-        payload = {user_id: user.id}
-        token = encode_token(payload)
-        render json: {user: user, jwt: token, success: "Welcome back, #{user.username}"}
-    else
-        render json: {failure: "Log in failed! Username or password invalid!"}
-    end
+  def destroy
+    session[:user_id] = nil
+    redirect_to root_url, notice: "Logged out!"
   end
 
   def auto_login
