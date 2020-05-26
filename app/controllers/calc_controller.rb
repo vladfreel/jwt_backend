@@ -5,25 +5,32 @@ class CalcController < ApplicationController
                 params[:secondString],
                 params[:firstString].length,
                 params[:secondString].length)
-    render json: {res: res}
+    render json: res
   end
 
   private
 
   def calculating(str1, str2, n, m)
-    j = 0;
+    arr1 = str1.split('')
+    res_arr1 = str1.split('')
+    arr2 = str2.split('')
+    s_index_1 = 0;
     i = 0;
-    while i<n and j<m
-      p str1[j] 
-      p str2[i]
-      p '*'*100
-      if str1[j] == str2[i]
-        j += 1 
+    arr2.each do |char_2|
+      arr1.each_with_index do |char_1, index|
+        if char_2.eql? char_1
+          next if index < s_index_1
+          i += 1
+          res_arr1[index] = '<u>' + res_arr1[index] + '</u>'
+          s_index_1 = index += 1
+          break
+        end
       end
-      i += 1
     end
-    p j
-    p m
+    if i == arr2.length
+      {cond: 'Yes', res: res_arr1.join('')}
+    else
+      {cond: 'No'}
+    end
   end
 end
-#https://www.geeksforgeeks.org/given-two-strings-find-first-string-subsequence-second/
