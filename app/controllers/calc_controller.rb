@@ -5,6 +5,7 @@ class CalcController < ApplicationController
                 params[:secondString],
                 params[:firstString].length,
                 params[:secondString].length)
+    Calculation.create!(condition: res[:cond], result: res[:res], user_id: params[:user_id])
     render json: res
   end
 
@@ -14,13 +15,13 @@ class CalcController < ApplicationController
     arr1 = str1.split('')
     res_arr1 = str1.split('')
     arr2 = str2.split('')
-    s_index_1 = 0;
-    i = 0;
+    s_index_1 = 0
+    i = 0
     arr2.each do |char_2|
       arr1.each_with_index do |char_1, index|
         if char_2.eql? char_1
           next if index < s_index_1
-          i += 1
+          i += 1 
           res_arr1[index] = '<u>' + res_arr1[index] + '</u>'
           s_index_1 = index += 1
           break

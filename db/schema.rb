@@ -10,16 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_18_215530) do
+ActiveRecord::Schema.define(version: 2020_05_26_110316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "calculations", force: :cascade do |t|
+    t.string "condition"
+    t.string "result"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_calculations_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
   end
 
+  add_foreign_key "calculations", "users"
 end
